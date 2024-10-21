@@ -7,8 +7,8 @@ type InputProps = {
   type: string;
   name: string;
   value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>, type: string) => void;
-  onBlur: (identifier: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur: () => void;
 };
 
 const Input = ({
@@ -29,8 +29,8 @@ const Input = ({
         type={type}
         name={name}
         value={value}
-        onChange={(event) => onChange(event, type)}
-        onBlur={() => onBlur(type)}
+        onChange={(event) => onChange(event)}
+        onBlur={onBlur}
       />
       <div className="control-error">{error && <p>{error}</p>}</div>
     </div>
