@@ -6,8 +6,12 @@ export default function Login() {
     password: '',
   });
 
-  const amailIsInvalid =
-    enteredValues.email !== '' && !enteredValues.email.includes('@');
+  const [didEdit, setDidEdit] = useState({
+    email: false,
+    password: false,
+  });
+
+  const amailIsInvalid = didEdit.email && !enteredValues.email.includes('@');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -26,6 +30,17 @@ export default function Login() {
         [identifier]: event.target.value,
       };
     });
+
+    setDidEdit((prevEdit) => ({ ...prevEdit, [identifier]: false }));
+  };
+
+  const handleInputBlur = (identifier: string) => {
+    setDidEdit((prevEdit) => {
+      return {
+        ...prevEdit,
+        [identifier]: true,
+      };
+    });
   };
 
   return (
@@ -41,6 +56,7 @@ export default function Login() {
             name="email"
             value={enteredValues.email}
             onChange={(event) => handleInputChange(event, 'email')}
+            onBlur={() => handleInputBlur('email')}
           />
           <div className="control-error">
             {amailIsInvalid && <p>Please enter a valid email address.</p>}
@@ -55,6 +71,7 @@ export default function Login() {
             name="password"
             value={enteredValues.password}
             onChange={(event) => handleInputChange(event, 'password')}
+            onBlur={() => handleInputBlur('password')}
           />
         </div>
       </div>
