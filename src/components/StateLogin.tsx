@@ -18,6 +18,17 @@ export default function Login() {
     console.log('@@ Submitted');
     console.log('@@ email:', enteredValues.email);
     console.log('@@ password:', enteredValues.password);
+
+    const emailIsInvalid = enteredValues.email === '';
+    const passwordIsInvalid = enteredValues.password === '';
+
+    if (emailIsInvalid || passwordIsInvalid) {
+      console.log('@@@ Invalid credentials. something is missing.');
+      emailIsInvalid && console.log('@@@ Please insert email data.');
+      passwordIsInvalid && console.log('@@@ Please insert password data.');
+
+      return;
+    }
   };
 
   const handleInputChange = (

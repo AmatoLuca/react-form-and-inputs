@@ -1,12 +1,12 @@
 import Header from './components/Header.tsx';
-import StateLogin from './components/StateLogin.tsx';
+import Login from './components/StateLogin.tsx';
 
 function App() {
   return (
     <>
       <Header />
       <main>
-        <StateLogin />
+        <Login />
       </main>
     </>
   );
