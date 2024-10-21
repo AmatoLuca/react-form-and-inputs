@@ -1,29 +1,32 @@
-import { useState } from 'react';
 import Input from './Input';
+import useInput from '../hooks/useInput';
 
 export default function Login() {
-  const [enteredValues, setEnteredValues] = useState({
-    email: '',
-    password: '',
-  });
+  const {
+    value: emailValue,
+    didEdit: didEmailEdit,
+    handleInputBlur: handleEmailBlur,
+    handleInputChange: handleEmailChange,
+  } = useInput('');
 
-  const [didEdit, setDidEdit] = useState({
-    email: false,
-    password: false,
-  });
+  const {
+    value: passwordValue,
+    didEdit: didPasswordEdit,
+    handleInputBlur: handlePasswordBlur,
+    handleInputChange: handlePasswordChange,
+  } = useInput('');
 
-  const emailIsInvalid = didEdit.email && !enteredValues.email.includes('@');
-  const passwordIsInvalid =
-    didEdit.password && enteredValues.password.trim().length > 6;
+  const emailIsInvalid = didEmailEdit && !emailValue.includes('@');
+  const passwordIsInvalid = didPasswordEdit && passwordValue.trim().length > 6;
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('@@ Submitted');
-    console.log('@@ email:', enteredValues.email);
-    console.log('@@ password:', enteredValues.password);
+    console.log('@@ email:', emailValue);
+    console.log('@@ password:', passwordValue);
 
-    const emailIsInvalid = enteredValues.email === '';
-    const passwordIsInvalid = enteredValues.password === '';
+    const emailIsInvalid = emailValue === '';
+    const passwordIsInvalid = passwordValue === '';
 
     if (emailIsInvalid || passwordIsInvalid) {
       console.log('@@@ Invalid credentials. something is missing.');
@@ -32,29 +35,6 @@ export default function Login() {
 
       return;
     }
-  };
-
-  const handleInputChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    identifier: string
-  ) => {
-    setEnteredValues((prevEnteredValues) => {
-      return {
-        ...prevEnteredValues,
-        [identifier]: event.target.value,
-      };
-    });
-
-    setDidEdit((prevEdit) => ({ ...prevEdit, [identifier]: false }));
-  };
-
-  const handleInputBlur = (identifier: string) => {
-    setDidEdit((prevEdit) => {
-      return {
-        ...prevEdit,
-        [identifier]: true,
-      };
-    });
   };
 
   return (
@@ -67,9 +47,9 @@ export default function Login() {
           id="email"
           type="email"
           name="email"
-          value={enteredValues.email}
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
+          value={emailValue}
+          onChange={handleEmailChange}
+          onBlur={handleEmailBlur}
           error={emailIsInvalid ? 'Please enter a valid email!' : undefined}
         />
       </div>
@@ -80,9 +60,9 @@ export default function Login() {
           id="password"
           type="password"
           name="password"
-          value={enteredValues.password}
-          onChange={handleInputChange}
-          onBlur={handleInputBlur}
+          value={passwordValue}
+          onChange={handlePasswordChange}
+          onBlur={handlePasswordBlur}
           error={
             passwordIsInvalid ? 'Please enter a valid password!' : undefined
           }
